@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrademarksRouteImport } from './routes/trademarks'
+import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as ClientsRouteImport } from './routes/clients'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const TrademarksRoute = TrademarksRouteImport.update({
   id: '/trademarks',
   path: '/trademarks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClientsRoute = ClientsRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
   '/clients': typeof ClientsRoute
+  '/payments': typeof PaymentsRoute
   '/trademarks': typeof TrademarksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
   '/clients': typeof ClientsRoute
+  '/payments': typeof PaymentsRoute
   '/trademarks': typeof TrademarksRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
   '/clients': typeof ClientsRoute
+  '/payments': typeof PaymentsRoute
   '/trademarks': typeof TrademarksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cases' | '/clients' | '/trademarks'
+  fullPaths: '/' | '/cases' | '/clients' | '/payments' | '/trademarks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cases' | '/clients' | '/trademarks'
-  id: '__root__' | '/' | '/cases' | '/clients' | '/trademarks'
+  to: '/' | '/cases' | '/clients' | '/payments' | '/trademarks'
+  id: '__root__' | '/' | '/cases' | '/clients' | '/payments' | '/trademarks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CasesRoute: typeof CasesRoute
   ClientsRoute: typeof ClientsRoute
+  PaymentsRoute: typeof PaymentsRoute
   TrademarksRoute: typeof TrademarksRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/trademarks'
       fullPath: '/trademarks'
       preLoaderRoute: typeof TrademarksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clients': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CasesRoute: CasesRoute,
   ClientsRoute: ClientsRoute,
+  PaymentsRoute: PaymentsRoute,
   TrademarksRoute: TrademarksRoute,
 }
 export const routeTree = rootRouteImport
