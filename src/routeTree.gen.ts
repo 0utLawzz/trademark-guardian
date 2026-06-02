@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrademarksRouteImport } from './routes/trademarks'
 import { Route as ClientsRouteImport } from './routes/clients'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TrademarksRoute = TrademarksRouteImport.update({
+  id: '/trademarks',
+  path: '/trademarks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClientsRoute = ClientsRouteImport.update({
   id: '/clients',
   path: '/clients',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
   '/clients': typeof ClientsRoute
+  '/trademarks': typeof TrademarksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
   '/clients': typeof ClientsRoute
+  '/trademarks': typeof TrademarksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
   '/clients': typeof ClientsRoute
+  '/trademarks': typeof TrademarksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cases' | '/clients'
+  fullPaths: '/' | '/cases' | '/clients' | '/trademarks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cases' | '/clients'
-  id: '__root__' | '/' | '/cases' | '/clients'
+  to: '/' | '/cases' | '/clients' | '/trademarks'
+  id: '__root__' | '/' | '/cases' | '/clients' | '/trademarks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CasesRoute: typeof CasesRoute
   ClientsRoute: typeof ClientsRoute
+  TrademarksRoute: typeof TrademarksRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/trademarks': {
+      id: '/trademarks'
+      path: '/trademarks'
+      fullPath: '/trademarks'
+      preLoaderRoute: typeof TrademarksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clients': {
       id: '/clients'
       path: '/clients'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CasesRoute: CasesRoute,
   ClientsRoute: ClientsRoute,
+  TrademarksRoute: TrademarksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
